@@ -1,0 +1,37 @@
+version: '3.1'
+
+services:
+  db-customer:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+      POSTGRES_USER: ${POSTGRES_USER:-cami}
+      POSTGRES_DB: ${POSTGRES_DB:-payments}
+      PGDATA: /data/postgres
+    volumes:
+      - /data/postgres
+    ports:
+      - 5431:5432
+    networks:
+      - postgres
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - /var/lib/pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      - postgres
+
+networks:
+  postgres:
+
+volumes:
+  postgres:
+  pgadmin:
