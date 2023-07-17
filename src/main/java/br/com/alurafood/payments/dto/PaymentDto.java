@@ -1,14 +1,15 @@
 package br.com.alurafood.payments.dto;
 
 import br.com.alurafood.payments.enummeration.Status;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import br.com.alurafood.payments.model.Payment;
+import lombok.*;
 
 import java.math.BigDecimal;
 
+@AllArgsConstructor
 @Builder
 @Getter
+@NoArgsConstructor
 @Setter
 public class PaymentDto {
   private Long id;
@@ -20,4 +21,30 @@ public class PaymentDto {
   private Status status;
   private Long orderId;
   private Long formOfPaymentId;
+
+  public PaymentDto(Payment payment) {
+    this.id = payment.getId();
+    this.value = payment.getValue();
+    this.name = payment.getName();
+    this.number = payment.getNumber();
+    this.expiration = payment.getExpiration();
+    this.code = payment.getCode();
+    this.status = payment.getStatus();
+    this.orderId = payment.getOrderId();
+    this.formOfPaymentId = payment.getFormOfPaymentId();
+  }
+
+  public Payment toModel() {
+    return Payment.builder()
+        .id(this.id)
+        .value(this.value)
+        .name(this.name)
+        .number(this.number)
+        .expiration(this.expiration)
+        .code(this.code)
+        .status(this.status)
+        .orderId(this.orderId)
+        .formOfPaymentId(this.formOfPaymentId)
+        .build();
+  }
 }
