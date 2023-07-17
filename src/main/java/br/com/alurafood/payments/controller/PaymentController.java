@@ -35,12 +35,13 @@ public record PaymentController(
   @PostMapping
   public ResponseEntity<PaymentDto> savePayment(@RequestBody @Valid PaymentDto paymentDto) {
     Payment payment = paymentDto.toModel();
+    Payment savedPayment = paymentService.savePayment(payment);
     URI uri = ServletUriComponentsBuilder
         .fromCurrentRequest()
         .path("{/payments/{id}")
         .buildAndExpand(payment.getId())
         .toUri();
-    return ResponseEntity.created(uri).body(paymentDto);
+    return ResponseEntity.created(uri).body(new PaymentDto(savedPayment));
   }
 
   @PutMapping("/{id}")
