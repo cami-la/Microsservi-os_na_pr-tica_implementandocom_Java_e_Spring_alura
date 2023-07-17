@@ -1,4 +1,4 @@
-package br.com.alurafood.payments.service.impl;
+package br.com.alurafood.payments.service;
 
 import br.com.alurafood.payments.model.Payment;
 import org.springframework.data.domain.Page;
