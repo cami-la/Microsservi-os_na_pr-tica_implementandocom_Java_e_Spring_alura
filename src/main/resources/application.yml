@@ -1,8 +1,8 @@
 server:
-  port: 8080
+  port: 0
 spring:
   application:
-    name: payment
+    name: payment-ms
   datasource:
     password: password
     url: jdbc:postgresql://172.27.0.2:5432/payments
@@ -15,3 +15,11 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://172.17.0.1:8761/eureka
+    instance:
+      preferIpAddress: true
