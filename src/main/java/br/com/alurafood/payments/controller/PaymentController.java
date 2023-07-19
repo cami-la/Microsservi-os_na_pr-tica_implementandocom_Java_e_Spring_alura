@@ -35,7 +35,7 @@ public record PaymentController(
   @PostMapping
   public ResponseEntity<PaymentDto> savePayment(@RequestBody @Valid PaymentDto paymentDto) {
     Payment payment = paymentDto.toModel();
-    Payment savedPayment = paymentService.savePayment(payment);
+    Payment savedPayment = paymentService.save(payment);
     URI uri = ServletUriComponentsBuilder
         .fromCurrentRequest()
         .path("{/payments/{id}")
@@ -47,7 +47,7 @@ public record PaymentController(
   @PutMapping("/{id}")
   public ResponseEntity<PaymentDto> updatePayment(@PathVariable Long id, @RequestBody PaymentDto paymentDto) {
     Payment payment = paymentDto.toModel();
-    Payment updatedPayment = paymentService.updatePayment(id, payment);
+    Payment updatedPayment = paymentService.update(id, payment);
     PaymentDto updatedPaymentDto = new PaymentDto(updatedPayment);
     return ResponseEntity.ok(updatedPaymentDto);
   }
