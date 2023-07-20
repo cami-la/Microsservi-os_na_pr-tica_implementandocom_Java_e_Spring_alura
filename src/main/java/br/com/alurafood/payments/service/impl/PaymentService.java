@@ -18,13 +18,13 @@ public record PaymentService(
 
 
   @Override
-  public Payment savePayment(Payment payment) {
+  public Payment save(Payment payment) {
     payment.setStatus(Status.CREATED);
     return paymentRepository.save(payment);
   }
 
   @Override
-  public Payment updatePayment(Long id, Payment payment) {
+  public Payment update(Long id, Payment payment) {
     Payment paymentToUpdate = paymentRepository.save(payment);
     paymentToUpdate.setId(id);
     return paymentToUpdate;

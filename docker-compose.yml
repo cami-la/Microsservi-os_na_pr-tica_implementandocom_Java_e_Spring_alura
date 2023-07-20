@@ -12,7 +12,7 @@ services:
     volumes:
       - /data/postgres
     ports:
-      - 5431:5432
+      - 5432:5432
     networks:
       - postgres
   pgadmin:
@@ -35,3 +35,6 @@ networks:
 volumes:
   postgres:
   pgadmin:
+
+# docker compose up -d
+# docker inspect <COINTAINER ID> | grep IPAddress

@@ -5,8 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface IPaymentService {
-  Payment savePayment(Payment payment);
-  Payment updatePayment(Long id, Payment payment);
+  Payment save(Payment payment);
+  Payment update(Long id, Payment payment);
   Page<Payment> findAll(Pageable pageable);
   Payment findById(Long id);
   void delete(Long id);
