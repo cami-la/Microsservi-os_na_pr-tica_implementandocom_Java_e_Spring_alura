@@ -5,15 +5,13 @@ import br.com.alurafood.payments.model.Payment;
 import br.com.alurafood.payments.repository.PaymentRepository;
 import br.com.alurafood.payments.service.IPaymentService;
 import jakarta.persistence.EntityNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
 public record PaymentService(
-    PaymentRepository paymentRepository,
-    ModelMapper modelMapper
+    PaymentRepository paymentRepository
 ) implements IPaymentService {
 
 
