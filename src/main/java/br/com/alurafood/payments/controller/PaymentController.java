@@ -4,6 +4,8 @@ import br.com.alurafood.payments.dto.PaymentDto;
 import br.com.alurafood.payments.model.Payment;
 import br.com.alurafood.payments.service.impl.PaymentService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +16,16 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/payments")
+@Slf4j
 public record PaymentController(
     PaymentService paymentService
 ) {
 
   @GetMapping
-  public ResponseEntity<Page<PaymentDto>> findAll(Pageable pageable) {
+  public ResponseEntity<Page<PaymentDto>> findAll(Pageable pageable, @Value("${local.server.port}") String port) {
     Page<Payment> payments = paymentService.findAll(pageable);
     Page<PaymentDto> paymentDto = payments.map(PaymentDto::new);
+    log.info("port: {}", port);
     return ResponseEntity.ok(paymentDto);
   }
 
