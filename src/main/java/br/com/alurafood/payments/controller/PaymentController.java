@@ -3,7 +3,9 @@ package br.com.alurafood.payments.controller;
 import br.com.alurafood.payments.dto.PaymentDto;
 import br.com.alurafood.payments.model.Payment;
 import br.com.alurafood.payments.service.impl.PaymentService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -14,12 +16,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/payments")
 @Slf4j
-public record PaymentController(
-    PaymentService paymentService
-) {
+public class PaymentController {
+  private final PaymentService paymentService;
 
   @GetMapping
   public ResponseEntity<Page<PaymentDto>> findAll(Pageable pageable, @Value("${local.server.port}") String port) {
@@ -59,6 +61,18 @@ public record PaymentController(
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deletePaymenr(@PathVariable Long id) {
     paymentService.delete(id);
+    return ResponseEntity.noContent().build();
+  }
+
+  @PutMapping("/{id}/paid")
+  @CircuitBreaker(name = "updateOrder", fallbackMethod = "confirmedPaymentWithPendentIntegration")
+  public ResponseEntity<Void> confirmOrderPayment(@PathVariable Long id) {
+    paymentService.confirmedPayment(id);
+    return ResponseEntity.noContent().build();
+  }
+
+  public ResponseEntity<Void> confirmedPaymentWithPendentIntegration(Long id, Exception exception) {
+    paymentService.updateStatus(id);
     return ResponseEntity.noContent().build();
   }
 }

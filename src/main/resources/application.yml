@@ -24,3 +24,10 @@ eureka:
     instance:
       instance-id: ${spring.application.name}:${random.int}
       instance.preferIpAddress: false
+resilience4j:
+  circuitbreaker:
+    instances:
+      updateOrder:
+        sliding-window-size: 3
+        minimum-number-of-calls: 2
+        wait-duration-in-open-state: 50s
